@@ -40,6 +40,7 @@ npm run audit           # Lighthouse audit
 ## Project Structure
 
 ```
+
 src/
 ├── app/                    # Next.js App Router pages
 ├── components/
