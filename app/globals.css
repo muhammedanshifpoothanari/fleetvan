@@ -1,0 +1,273 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* ── Uber Base Tonal Scale ─────────────────────────────────────────────────── */
+/*
+  Uber Base dark-mode color system.
+  Source: base.uber.com — strictly black/white brand with green delivery accent.
+
+  Tonal steps (dark surface system):
+  100 → true black (page bg)
+  200 → near-black (bottom sheet)
+  300 → card surface
+  400 → input / elevated card
+  500 → strong border / divider
+  600 → disabled / inactive icon
+  700 → muted body text
+  800 → secondary label
+  900 → primary / white
+*/
+:root {
+  /* ── Tonal palette ── */
+  --uber-100: #000000;   /* page background      */
+  --uber-200: #0a0a0a;   /* bottom sheet surface */
+  --uber-300: #141414;   /* card background      */
+  --uber-400: #1c1c1c;   /* input / pressed      */
+  --uber-500: #262626;   /* border / divider     */
+  --uber-600: #3d3d3d;   /* inactive icon        */
+  --uber-700: #6b6b6b;   /* muted text           */
+  --uber-800: #ababab;   /* secondary label      */
+  --uber-900: #ffffff;   /* primary / white      */
+
+  /* ── Delivery green (Uber Eats / logistics) ── */
+  --uber-green:         #06c167;
+  --uber-green-10:      rgba(6, 193, 103, 0.10);
+  --uber-green-15:      rgba(6, 193, 103, 0.15);
+  --uber-green-20:      rgba(6, 193, 103, 0.20);
+  --uber-green-glow:    0 4px 24px rgba(6, 193, 103, 0.35);
+
+  /* ── Design token aliases (Tailwind token bridge) ── */
+  --background:           var(--uber-100);
+  --foreground:           var(--uber-900);
+  --card:                 var(--uber-300);
+  --card-foreground:      var(--uber-900);
+  --popover:              var(--uber-300);
+  --popover-foreground:   var(--uber-900);
+  --primary:              var(--uber-900);
+  --primary-foreground:   var(--uber-100);
+  --secondary:            var(--uber-400);
+  --secondary-foreground: var(--uber-900);
+  --muted:                var(--uber-400);
+  --muted-foreground:     var(--uber-700);
+  --accent:               var(--uber-400);
+  --accent-foreground:    var(--uber-900);
+  --destructive:          #e03131;
+  --destructive-foreground: var(--uber-900);
+  --border:               var(--uber-500);
+  --input:                var(--uber-400);
+  --ring:                 var(--uber-600);
+  --radius:               0.75rem;
+
+  /* Sidebar */
+  --sidebar:                    var(--uber-200);
+  --sidebar-foreground:         var(--uber-900);
+  --sidebar-primary:            var(--uber-900);
+  --sidebar-primary-foreground: var(--uber-100);
+  --sidebar-accent:             var(--uber-400);
+  --sidebar-accent-foreground:  var(--uber-900);
+  --sidebar-border:             var(--uber-500);
+  --sidebar-ring:               var(--uber-600);
+
+  /* Charts */
+  --chart-1: var(--uber-green);
+  --chart-2: var(--uber-900);
+  --chart-3: var(--uber-700);
+  --chart-4: #e03131;
+  --chart-5: #f59f00;
+}
+
+@theme inline {
+  --font-sans: var(--font-inter), 'Inter', var(--font-plus-jakarta), 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* ── Uber Base Motion — easing custom properties ─────────────────────────── */
+:root {
+  /* Quintic EaseInOut — moving, pushing */
+  --ease-move:     cubic-bezier(0.83, 0, 0.17, 1);
+  --dur-move:      500ms;
+
+  /* Quintic EaseOut — entering, snapping */
+  --ease-enter:    cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-enter:     500ms;
+
+  /* Quintic EaseIn — passive exiting */
+  --ease-exit:     cubic-bezier(0.64, 0, 0.78, 0);
+  --dur-exit:      400ms;
+
+  /* Quadratic EaseIn — dismissing */
+  --ease-dismiss:  cubic-bezier(0.11, 0, 0.5, 0);
+  --dur-dismiss:   200ms;
+
+  /* Linear — opacity / color changes */
+  --ease-fade:     cubic-bezier(0, 0, 1, 1);
+  --dur-fade:      200ms;
+}
+
+/* ── Uber tonal utility classes — map tonal scale to Tailwind-style classes ─ */
+@layer utilities {
+  /* Backgrounds */
+  .bg-u100 { background-color: var(--uber-100); }
+  .bg-u200 { background-color: var(--uber-200); }
+  .bg-u300 { background-color: var(--uber-300); }
+  .bg-u400 { background-color: var(--uber-400); }
+  .bg-u500 { background-color: var(--uber-500); }
+  .bg-u600 { background-color: var(--uber-600); }
+  .bg-u700 { background-color: var(--uber-700); }
+  .bg-u800 { background-color: var(--uber-800); }
+  .bg-u900 { background-color: var(--uber-900); }
+  .bg-ugreen { background-color: var(--uber-green); }
+  .bg-ugreen-10 { background-color: var(--uber-green-10); }
+  .bg-ugreen-20 { background-color: var(--uber-green-20); }
+
+  /* Text */
+  .text-u100 { color: var(--uber-100); }
+  .text-u200 { color: var(--uber-200); }
+  .text-u300 { color: var(--uber-300); }
+  .text-u400 { color: var(--uber-400); }
+  .text-u500 { color: var(--uber-500); }
+  .text-u600 { color: var(--uber-600); }
+  .text-u700 { color: var(--uber-700); }
+  .text-u800 { color: var(--uber-800); }
+  .text-u900 { color: var(--uber-900); }
+  .text-ugreen { color: var(--uber-green); }
+
+  /* Borders */
+  .border-u500 { border-color: var(--uber-500); }
+  .border-u600 { border-color: var(--uber-600); }
+  .border-ugreen { border-color: var(--uber-green); }
+
+  /* Uber interactive press state */
+  .uber-press {
+    transition: transform var(--dur-dismiss) var(--ease-dismiss),
+                opacity  var(--dur-fade)    var(--ease-fade),
+                filter   var(--dur-fade)    var(--ease-fade);
+  }
+  .uber-press:active {
+    transform: scale(0.97);
+  }
+
+  /* Button with directional move on press */
+  .uber-btn-move {
+    transition: background-color var(--dur-fade)    var(--ease-fade),
+                transform         var(--dur-dismiss) var(--ease-dismiss);
+  }
+  .uber-btn-move:active {
+    transform: scale(0.985);
+  }
+}
+
+/* ── Light Mode Variables (Light Theme) ────────────────────────────────────── */
+.light {
+  /* ── Tonal palette for light mode ── */
+  --uber-100: #ffffff;   /* page background      */
+  --uber-200: #f8f8f8;   /* bottom sheet surface */
+  --uber-300: #f0f0f0;   /* card background      */
+  --uber-400: #e8e8e8;   /* input / pressed      */
+  --uber-500: #d0d0d0;   /* border / divider     */
+  --uber-600: #999999;   /* inactive icon        */
+  --uber-700: #666666;   /* muted text           */
+  --uber-800: #333333;   /* secondary label      */
+  --uber-900: #000000;   /* primary / dark       */
+
+  /* ── Delivery green stays the same ── */
+  --uber-green:         #06c167;
+  --uber-green-10:      rgba(6, 193, 103, 0.10);
+  --uber-green-15:      rgba(6, 193, 103, 0.15);
+  --uber-green-20:      rgba(6, 193, 103, 0.20);
+  --uber-green-glow:    0 4px 24px rgba(6, 193, 103, 0.35);
+
+  /* ── Design token aliases for light mode ── */
+  --background:           var(--uber-100);
+  --foreground:           var(--uber-900);
+  --card:                 #ffffff;
+  --card-foreground:      var(--uber-900);
+  --popover:              #ffffff;
+  --popover-foreground:   var(--uber-900);
+  --primary:              var(--uber-900);
+  --primary-foreground:   var(--uber-100);
+  --secondary:            var(--uber-400);
+  --secondary-foreground: var(--uber-900);
+  --muted:                var(--uber-300);
+  --muted-foreground:     var(--uber-700);
+  --accent:               var(--uber-green);
+  --accent-foreground:    var(--uber-900);
+  --destructive:          #e03131;
+  --destructive-foreground: #ffffff;
+  --border:               var(--uber-500);
+  --input:                #ffffff;
+  --ring:                 var(--uber-400);
+
+  /* Sidebar light mode */
+  --sidebar:                    var(--uber-200);
+  --sidebar-foreground:         var(--uber-900);
+  --sidebar-primary:            var(--uber-900);
+  --sidebar-primary-foreground: var(--uber-100);
+  --sidebar-accent:             var(--uber-green);
+  --sidebar-accent-foreground:  var(--uber-900);
+  --sidebar-border:             var(--uber-500);
+  --sidebar-ring:               var(--uber-400);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    transition: background-color 300ms ease, color 300ms ease;
+  }
+}
+
+/* Smooth theme transitions */
+html {
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+html.light,
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+html.dark,
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
